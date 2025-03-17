@@ -65,7 +65,7 @@ for iii = 1:2 % 2 replicates
         plot(ncomp_values, pval_perm3_Pepe_emb(:,ii,iii), 'blue');
         legend('GLLR', 'perm', 'perm-f')
         
-        save pepe_sim_emb
+        save sim_emb
         
     end
 end
