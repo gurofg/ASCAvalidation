@@ -10,8 +10,8 @@ Code Files:
 
  1 - powercurves_script.m: Simulation script to generate power curves (routines 10 and 11) and to plot results (routine 12).   
     - The call to the powercurves (routines 10 and 11) is now commented to avoid this lengthy operation (which we performed in a server and stored in F2 to F4)  
- 2 - pvalues_mvdata_real.m: Generates figures of the p-values in terms of the number of components from simulated data with effects in the measured data (calling routine 9) and the output is stored in D2. Calls routine 6 to fit LiMM_PCA models.
- 3 - pvalues_mvdata_emb.m: Generates figures of the p-values in terms of the number of components from simulated data with effects embedded in a specific component (calling routine 8) and the output is stored in D1; Calls routine 6 to fit LiMM_PCA models   
+ 2 - pvalues_mvdata_real.m: Generates figures of the p-values in terms of the number of components from simulated data with effects in the measured data (calling routine 9) and the output is stored in D1. Calls routine 6 to fit LiMM_PCA models.
+ 3 - pvalues_mvdata_emb.m: Generates figures of the p-values in terms of the number of components from simulated data with effects embedded in a specific component (calling routine 8) and the output is stored in D2. Calls routine 6 to fit LiMM_PCA models.  
  4 - NeoAva.m: calls routines 7 and 5 and generates the figure on NeoAva data  
     - Warning: It assumes access to a folder outside the repo, and actually duplicates the addition of the path in the previous routine    
  5 - RM_LiMM_PCA_sim.m: Function for doing repeated measures-LiMM_PCA.  
@@ -27,8 +27,8 @@ Code Files:
 
 Data:  
 
-D1 - pepe_sim_emb.mat: data simulated with effects embedded in a specific component  
-D2 - pepe_sim.mat: data simulated with effects in the measured data   
+D1 - sim_real.mat: data simulated with effects in the measured data   
+D2 - sim_emb.mat: data simulated with effects embedded in a specific component  
 
 Folders:  
 
