@@ -4,9 +4,9 @@
 % terms of the number of components from simulated data with effects in the 
 % measured data.
 %
-% coded by: Jose Camacho Paez (josecamacho@ugr.es)
-%       Torfinn Støve Madssen (torfinn.s.madssen@ntnu.no)
-% last modification: 17/March/2025
+% coded by: Torfinn Støve Madssen (torfinn.s.madssen@ntnu.no)
+%       Jose Camacho Paez (josecamacho@ugr.es)
+% last modification: 19/March/2025
 % 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ options.permute = 'yes';
 options.newID = 'false';
 options.center = 'off';
 
-effectsize = 0:0.02:0.1
+effectsize = 0:0.04:0.2
 effect = [.5,0,2,1] % small time effect, zero treatment effect, large individual effect, moderate interaction
 for iii = 1:2 % 2 replicates
     for ii = 1:length(effectsize)
@@ -58,34 +58,25 @@ for iii = 1:2 % 2 replicates
         data = simulate_mvdata_real(samplesize, j, A, effectsize(ii), effect); % function for simulating multivariate data
         options.Y_vars = data.Properties.VariableNames(30:end);
         
-        parfor i = 1:length(ncomp_values)
+        for i = 1:length(ncomp_values)
             i
             options2 = options;
             options2.ncomp = ncomp_values(i);
-            %         [~, M_B, ~] = RM_LiMM_PCA_sim(data, options2);
-            %         pval_GLLR(i,ii) = M_B.pval;
-            %         pval_perm(i,ii) = M_B.pval_perm;
-            %         pval_perm3(i,ii) = M_B.pval_perm3;
-            [~, M_B, ~] = RM_LiMM_PCA_sim_Pepe(data, options2);
-            pval_GLLR_Pepe_real(i,ii,iii) = M_B.pval;
-            pval_perm_Pepe_real(i,ii,iii) = M_B.pval_perm;
-            pval_perm3_Pepe_real(i,ii,iii) = M_B.pval_perm3;
+            
+            [~, M_B, ~] = RM_LiMM_PCA_sim(data, options2);
+            
+            pval_GLLR(i,ii,iii) = M_B.pval;
+            pval_perm(i,ii,iii) = M_B.pval_perm1;
+            pval_perm3(i,ii,iii) = M_B.pval_perm3;
         end
         
         % Plot p-values
         
-        %     figure;
-        %     ylabel('P-value'); xlabel('Number of components'); title(sprintf('Effect Size %d',effectsize(ii))); hold on
-        %     plot(ncomp_values, pval_GLLR(:,ii), 'red');
-        %     plot(ncomp_values, pval_perm(:,ii), 'green');
-        %     plot(ncomp_values, pval_perm3(:,ii), 'blue');
-        %     legend('GLLR', 'perm', 'perm-f')
-        
         figure;
         ylabel('P-value'); xlabel('Number of components'); title(sprintf('Effect Size %d',effectsize(ii))); hold on
-        plot(ncomp_values, pval_GLLR_Pepe_real(:,ii,iii), 'red');
-        plot(ncomp_values, pval_perm_Pepe_real(:,ii,iii), 'green');
-        plot(ncomp_values, pval_perm3_Pepe_real(:,ii,iii), 'blue');
+        plot(ncomp_values, pval_GLLR(:,ii), 'red');
+        plot(ncomp_values, pval_perm(:,ii), 'green');
+        plot(ncomp_values, pval_perm3(:,ii), 'blue');
         legend('GLLR', 'perm', 'perm-f')
         
         save sim_real
