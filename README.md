@@ -21,8 +21,9 @@ Code Files:
  9 - simulate_mvdata_emb.m: Simulates effects embedded in a specific component  
 10 - powercurves_real.m: Generates power curves from simulated data with effects in the measured data (calling routine 7). Calls routine 6 to fit LiMM_PCA models.  
 11 - powercurves_emb.m: Generates power curves from simulated data with effects embedded in a specific component (calling routine 8). Calls routine 6 to fit LiMM_PCA models.  
-12 - collect_results.m: Reads data from simulated results 
-13 - preprocess2D.m: auxiliary fuction taken from the MEDA Toolbox v1.3
+12 - collect_results.m: Reads data from simulated results  
+13 - preprocess2D.m: auxiliary fuction taken from the MEDA Toolbox v1.3  
+14 - create_design.m: auxiliary fuction taken from the MEDA Toolbox v1.3  
 
 Data:  
 
