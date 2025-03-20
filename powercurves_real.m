@@ -5,6 +5,8 @@ j = 200; % number of manifest variables to simulate in Y
 A = 100; % number of significant variables
 samplesize =  50;
 
+effectsize = 0:0.04:0.2;
+
 % Specify RM-LiMM-PCA modeling options
 options.iterations = iterations;
 options.baseline = 'ucLDA'; % Constrain the baseline means
@@ -18,7 +20,7 @@ options.plot = 'yes'; % Turn off automatic plotting
 options.directory = output_dir; 
 options.center = center;
 
-data = simulate_mvdata_real(samplesize, j, A, effectsize(1)); % function for simulating multivariate data
+data = simulate_mvdata_real(samplesize, j, A, effectsize(1), effectsize); % function for simulating multivariate data
 options.Y_vars = data.Properties.VariableNames(4:end);
 
 options2 = options;
@@ -30,7 +32,7 @@ for m = 1:length(effectsize)
 
     parfor s = 1:n_sim
     
-        data = simulate_mvdata_real(samplesize, j, A, effectsize(m));
+        data = simulate_mvdata_real(samplesize, j, A, effectsize(m),effectsize);
         
         [~, M_B, ~] = RM_LiMM_PCA_sim_Pepe(data, options);
         

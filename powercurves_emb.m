@@ -6,6 +6,8 @@ A = 100; % number of latent variables (principal components) to simulate
 d = 3; % which component should contain the design effects
 samplesize =  50;
 
+effectsize = 0:0.12:0.6;
+
 % Specify RM-LiMM-PCA modeling options
 options.iterations = iterations;
 options.baseline = 'ucLDA'; % Constrain the baseline means
@@ -19,7 +21,7 @@ options.plot = 'yes'; % Turn off automatic plotting
 options.directory = output_dir; 
 options.center = center;
 
-data = simulate_mvdata_emb(samplesize, j, A, d, effectsize(1), expvar); % function for simulating multivariate data
+data = simulate_mvdata_emb(samplesize, j, A, d, effectsize(1), expvar, effectsize); % function for simulating multivariate data
 options.Y_vars = data.Properties.VariableNames(4:end);
 
 options2 = options;
@@ -29,9 +31,9 @@ options2.baseline = 'cLDA';
 
 for m = 1:length(effectsize)
 
-    parfor s = 1:n_sim
+    for s = 1:n_sim
     
-        data = simulate_mvdata_emb(samplesize, j, A, d, effectsize(m), expvar);
+        data = simulate_mvdata_emb(samplesize, j, A, d, effectsize(m), expvar, effectsize);
         
         [~, M_B, ~] = RM_LiMM_PCA_sim(data, options);
         

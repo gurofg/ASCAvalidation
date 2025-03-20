@@ -64,10 +64,10 @@ if isfield(options, 'coding') == 0
 end
 
 % Create fixed effect design matrix
-if options.coding == 'PRC'
+if isequal(options.coding,'PRC')
     dummy_treatment = dummyvar(nominal(data.treatment));
     dummy_treatment(:,1) = [];
-elseif options.coding == 'ASCA'
+elseif isequal(options.coding,'ASCA')
     treatments = sort(unique(data.treatment));
     for i = 1:length(treatments)-1
         dummy_treatment(:,i) = (data.treatment == treatments(i)) - (data.treatment == treatments(length(treatments)));
@@ -75,11 +75,11 @@ elseif options.coding == 'ASCA'
 end
 
 % Create fixed effect design matrix and specify column number for the effects
-if options.baseline == 'cLDA'
+if isequal(options.baseline,'cLDA')
     X = designmat(dummy_time, dummy_treatment);
     X(:,(1+length(unique(data.timepoint))):(length(unique(data.timepoint))+size(dummy_treatment,2))) = [];
     options.GLLR_effects = {[2:length(unique(data.timepoint))], [1+length(unique(data.timepoint)):size(X,2)], [2:size(X,2)]};
-elseif options.baseline == 'ucLDA'
+elseif isequal(options.baseline,'ucLDA')
     X = designmat(dummy_time, dummy_treatment);
     options.GLLR_effects = {[2:length(unique(data.timepoint))], [2+length(unique(data.timepoint)):size(X,2)], [2:size(X,2)]};
 end
@@ -129,15 +129,15 @@ varargout{length(varargout)+1} = E;
 varargout{length(varargout)+1} = struct('scores', scores_Y, 'loadings', loadings_Y, 'eigen', eigen_Y);
 
 %% GLLR-test
-if isfield(options, 'iterations') == 0;
+if isfield(options, 'iterations') == 0
     options.iterations = 1000; % set default nummber to 1000
 end
 
-if isfield(options, 'GLLR') == 0;
+if isfield(options, 'GLLR') == 0
     options.GLLR = ''; % set no GLLR-test as default
 end
 
-if options.GLLR == 'yes'
+if isequal(options.GLLR,'yes')
     for e = 2
         
         for i = 1:size(scores_Y,2)
@@ -193,7 +193,7 @@ if options.GLLR == 'yes'
 end
 
 %% Permutation test
-if options.permute == 'yes'
+if isequal( options.permute,'yes')
 
     teststat_perm_obs_SSQ = sum(sum((varargout{2}.M).^2));
     teststat_perm_obs_T_SSQ = sum(sum((varargout{2}.scores).^2));
@@ -231,11 +231,11 @@ end
 
 
 %% Nonparametric bootstrapping to calculate confidence intervals
-if isfield(options, 'CI') == 0;
+if isfield(options, 'CI') == 0
     options.CI = 'yes'; % do bootstrapping-CI by default
 end
 
-if options.CI == 'yes'
+if isequal(options.CI,'yes')
     allpatients = unique(G, 'stable'); % Create vector containing all unique patient IDs
 
     for i = 1:size(allpatients,1)
@@ -251,7 +251,7 @@ if options.CI == 'yes'
 
         data_X_b = table();
 
-        if options.newID == 'false'
+        if isequal(options.newID,'false')
             for t = 1:length(treatments)
                 for k = 1:length(allpatients(groups_allpatients==treatments(t)))
                     idx = find(groups_allpatients == treatments(t));
@@ -267,7 +267,7 @@ if options.CI == 'yes'
                     Y_b = [Y_b; Y_add];
                 end
             end
-        elseif options.newID == 'true'
+        elseif isequal(options.newID,'true')
             for t = 1:length(treatments)
                 for k = 1:length(allpatients(groups_allpatients==treatments(t)))
                     idx = find(groups_allpatients == treatments(t));
@@ -390,281 +390,4 @@ if options.CI == 'yes'
     end
 end
 
-% %% Create figures
-% 
-% if isfield(options, 'plot') == 0;
-%     options.plot = 'yes'; % make plots by default
-% end
-% 
-% if options.plot == 'yes'
-%     varargout{length(varargout)+1} = figure;
-%     
-%     % Scree plot
-%     if length(timepoints) > 2
-%         tiledlayout(2,5); nexttile([2 1])
-%     else
-%         tiledlayout(1,5); nexttile([1 1])
-%     end
-%     bar(varargout{1}.eigen(1:rank(varargout{1}.scores,2))./sum(varargout{1}.eigen)*100)
-%     ylim([0,100])
-%     xlabel('Principal components', 'FontSize',7)
-%     set(gca, 'xtick', []);
-%     ylabel('Explained variance (%)', 'FontSize',8)
-%     title('Scree plot', 'FontSize',8)
-%     grid on
-% 
-%     %  Plotting PC1-scores
-%     for i = 1:length(unique(timepoints))
-%         id(i) = find(data.timepoint==timepoints(i), 1, 'first');
-%     end
-% 
-%     nexttile([1 2])
-%     hold on 
-%     errorbar([0:length(timepoints)-1], varargout{1}.scores(id,1)', varargout{1}.scores(id,1)'-prctile(varargout{1}.scores_boot{1}, 2.5), prctile(varargout{1}.scores_boot{1}, 97.5) - varargout{1}.scores(id,1)')
-%     set(gca,'XTick',[0:length(timepoints)-1]);
-%     ylabel('PC1 (' + num2str((varargout{1}.eigen(1)/sum(varargout{1}.eigen))*100, '%.2f') + '%)', 'FontSize',8)
-%     title('Scores', 'FontSize',8)
-%     grid on
-%     hold off
-% 
-%     % Loading plot
-%     nexttile([1 2])
-%     h = bar(1:size(Y,2), varargout{1}.loadings(:,1)');
-%     h.FaceColor = 'flat';
-%     if isfield(options, 'color')
-%         h.CData = options.color;
-%     end
-%     hold on
-%     errorbar([1:size(Y,2)], varargout{1}.loadings(:,1)', varargout{1}.loadings(:,1)' - prctile(varargout{1}.loadings_boot{1}, 2.5), prctile(varargout{1}.loadings_boot{1}, 97.5) - varargout{1}.loadings(:,1)', 'LineStyle', 'none')
-%     if isfield(options, 'show_varnames') == 0
-%         options.show_varnames = '';
-%     end
-%     if options.show_varnames == 'yes'
-%         set(gca,'XTick',[1:size(Y,2)]);
-%         set(gca,'XTickLabel',Y_vars, 'XTickLabelRotation', 90, 'FontSize', 4);
-%     end
-%     title('Loadings', 'FontSize',8)
-%     grid on
-%     hold off
-% 
-%     %  Plotting PC2-scores
-%     if length(timepoints) > 2
-%         nexttile([1 2])
-%         hold on 
-%         errorbar([0:length(timepoints)-1], varargout{1}.scores(id,2)', varargout{1}.scores(id,2)'-prctile(varargout{1}.scores_boot{2}, 2.5), prctile(varargout{1}.scores_boot{2}, 97.5) - varargout{1}.scores(id,2)')
-%         set(gca,'XTick',[0:length(timepoints)-1]);
-%         ylabel('PC1 (' + num2str((varargout{1}.eigen(2)/sum(varargout{1}.eigen))*100, '%.2f') + '%)', 'FontSize',8)
-%         grid on
-%         xlabel('Timepoint')
-%         hold off
-% 
-%         % Loading plot
-%         nexttile([1 2])
-%         h = bar(1:size(Y,2), varargout{1}.loadings(:,2)');
-%         h.FaceColor = 'flat';
-%         if isfield(options, 'color')
-%             h.CData = options.color;
-%         end
-%         hold on
-%         errorbar([1:size(Y,2)], varargout{1}.loadings(:,2)', varargout{1}.loadings(:,2)' - prctile(varargout{1}.loadings_boot{2}, 2.5), prctile(varargout{1}.loadings_boot{2}, 97.5) - varargout{1}.loadings(:,2)', 'LineStyle', 'none')
-%         if options.show_varnames == 'yes'
-%             set(gca,'XTick',[1:size(Y,2)]);
-%             set(gca,'XTickLabel',Y_vars, 'XTickLabelRotation', 90, 'FontSize', 4);
-%         end
-%         grid on
-%         hold off
-%     end
-% 
-%     % (Treatment +) Time*Treatment
-%     varargout{length(varargout)+1} = figure;
-%     
-%     % Scree plot
-%     if length(timepoints) > 2
-%         tiledlayout(2,5); nexttile([2 1])
-%     else
-%         tiledlayout(1,5); nexttile([1 1])
-%     end
-% 
-%     bar(varargout{2}.eigen(1:rank(varargout{2}.scores))./sum(varargout{2}.eigen)*100)
-%     set(gca, 'xtick', []);
-%     ylim([0,100])
-%     xlabel('Principal components', 'FontSize',7)
-%     ylabel('Explained variance (%)', 'FontSize',8)
-%     title('Scree plot', 'FontSize',8)
-%     grid on
-% 
-%     nexttile([1 2])
-%     hold on
-%     title('Scores', 'FontSize', 8)
-%     ylabel('PC1 (' + num2str((varargout{2}.eigen(1)/sum(varargout{2}.eigen))*100, '%.2f') + ' %)', 'FontSize', 8);
-%     for d = 1:length(treatments)
-%         for k = 1:length(timepoints)
-%             id(k) = find(data.timepoint == timepoints(k) & data.treatment == treatments(d), 1, 'first');
-%         end
-%         errorbar([0:length(unique(timepoints))-1], varargout{2}.scores(id,1)', varargout{2}.scores(id,1)' - prctile(varargout{2}.scores_boot{1,d}, 2.5), prctile(varargout{2}.scores_boot{1,d}, 97.5) - varargout{2}.scores(id,1)')
-%     end
-%     set(gca,'XTick',[0:length(timepoints)-1]);
-%     legend(string(treatments), 'FontSize', 4) %, 'FontSize', 4, 'Position', [0.5,2,1,1])
-%     grid on
-%     hold off
-% 
-%     nexttile([1 2])
-%     h = bar(1:size(Y,2), varargout{2}.loadings(:,1)');
-%     h.FaceColor = 'flat';
-%     if isfield(options, 'color')
-%         h.CData = options.color;
-%     end
-%     hold on
-%     errorbar([1:size(Y,2)], varargout{2}.loadings(:,1)', varargout{2}.loadings(:,1)' - prctile(varargout{2}.loadings_boot{1}, 2.5), prctile(varargout{2}.loadings_boot{1}, 97.5) - varargout{2}.loadings(:,1)', 'LineStyle', 'none')
-%     if options.show_varnames == 'yes'
-%         set(gca,'XTick',[1:size(Y,2)]);
-%         set(gca,'XTickLabel',Y_vars, 'XTickLabelRotation', 90, 'FontSize', 4);
-%     end
-%     title('Loadings', 'FontSize',8)
-%     grid on
-%     hold off
-% 
-%     % Plotting results for PC2
-%     if length(timepoints) > 2
-%         nexttile([1 2])
-%         hold on
-%         ylabel('PC2 (' + num2str((varargout{2}.eigen(2)/sum(varargout{2}.eigen))*100, '%.2f') + ' %)', 'FontSize', 8);
-%         for d = 1:length(treatments)
-%             for k = 1:length(timepoints)
-%                 id(k) = find(data.timepoint == timepoints(k) & data.treatment == treatments(d), 1, 'first');
-%             end
-%             errorbar([0:length(unique(timepoints))-1], varargout{2}.scores(id,2)', varargout{2}.scores(id,2)' - prctile(varargout{2}.scores_boot{2,d}, 2.5), prctile(varargout{2}.scores_boot{2,d}, 97.5) - varargout{2}.scores(id,2)')
-%         end
-%         set(gca,'XTick',[0:length(timepoints)-1]);
-%         xlabel('Timepoint')
-%         grid on
-%         hold off
-% 
-%         nexttile([1 2])
-%         h = bar(1:size(Y,2), varargout{2}.loadings(:,2)');
-%         h.FaceColor = 'flat';
-%         if isfield(options, 'color')
-%             h.CData = options.color;
-%         end
-%         hold on
-%         errorbar([1:size(Y,2)], varargout{2}.loadings(:,2)', varargout{2}.loadings(:,2)' - prctile(varargout{2}.loadings_boot{2}, 2.5), prctile(varargout{2}.loadings_boot{2}, 97.5) - varargout{2}.loadings(:,2)', 'LineStyle', 'none')
-%         if options.show_varnames == 'yes'
-%             set(gca,'XTick',[1:size(Y,2)]);
-%             set(gca,'XTickLabel',Y_vars, 'XTickLabelRotation', 90, 'FontSize', 4);
-%         end
-%         title('Loadings', 'FontSize',8)
-%         grid on
-%         hold off
-%     end
-% 
-%     % Time + (Treatment +) Time*Treatment
-%     varargout{length(varargout)+1} = figure;
-%     if length(timepoints) > 2
-%         tiledlayout(2,5)
-%         nexttile([2 1])
-%     else
-%         tiledlayout(1,5)
-%         nexttile([1 1])
-%     end
-%     
-%     bar(varargout{3}.eigen(1:rank(varargout{3}.scores))./sum(varargout{3}.eigen)*100)
-%     ylim([0,100])
-%     set(gca, 'xtick', []);
-%     xlabel('Principal components', 'FontSize',7)
-%     ylabel('Explained variance (%)', 'FontSize',8)
-%     title('Scree plot', 'FontSize',8)
-%     grid on
-% 
-%     nexttile([1 2])
-%     hold on
-%     title('Scores', 'FontSize', 8)
-%     ylabel('PC1 (' + num2str((varargout{3}.eigen(1)/sum(varargout{3}.eigen))*100, '%.2f') + ' %)', 'FontSize', 8);
-%     for d = 1:length(treatments)
-%         for k = 1:length(timepoints)
-%             id(k) = find(data.timepoint == timepoints(k) & data.treatment == treatments(d), 1, 'first');
-%         end
-%         errorbar([0:length(unique(timepoints))-1], varargout{3}.scores(id,1)', varargout{3}.scores(id,1)' - prctile(varargout{3}.scores_boot{1,d}, 2.5), prctile(varargout{3}.scores_boot{1,d}, 97.5) - varargout{3}.scores(id,1)')
-%     end
-%     set(gca,'XTick',[0:length(timepoints)-1]);
-%     legend(string(treatments), 'FontSize', 4) %, 'FontSize', 4, 'Position', [0.5,2,1,1])
-%     grid on
-%     hold off
-% 
-%     nexttile([1 2])
-%     h = bar(1:size(Y,2), varargout{3}.loadings(:,1)');
-%     h.FaceColor = 'flat';
-%     if isfield(options, 'color')
-%         h.CData = options.color;
-%     end
-%     hold on
-%     errorbar([1:size(Y,2)], varargout{3}.loadings(:,1)', varargout{3}.loadings(:,1)' - prctile(varargout{3}.loadings_boot{1}, 2.5), prctile(varargout{3}.loadings_boot{1}, 97.5) - varargout{3}.loadings(:,1)', 'LineStyle', 'none')
-%     if options.show_varnames == 'yes'
-%         set(gca,'XTick',[1:size(Y,2)]);
-%         set(gca,'XTickLabel',Y_vars, 'XTickLabelRotation', 90, 'FontSize', 4);
-%     end
-%     title('Loadings', 'FontSize',8)
-%     grid on
-%     hold off
-% 
-%     % Plotting results for PC2
-%     if length(timepoints) > 2
-%         nexttile([1 2])
-%         hold on
-%         ylabel('PC2 (' + num2str((varargout{3}.eigen(2)/sum(varargout{3}.eigen))*100, '%.2f') + ' %)', 'FontSize', 8);
-%         for d = 1:length(treatments)
-%             for k = 1:length(timepoints)
-%                 id(k) = find(data.timepoint == timepoints(k) & data.treatment == treatments(d), 1, 'first');
-%             end
-%             errorbar([0:length(unique(timepoints))-1], varargout{3}.scores(id,2)', varargout{3}.scores(id,2)' - prctile(varargout{3}.scores_boot{2,d}, 2.5), prctile(varargout{3}.scores_boot{2,d}, 97.5) - varargout{3}.scores(id,2)')
-%         end
-%         set(gca,'XTick',[0:length(timepoints)-1]);
-%         xlabel('Timepoint')
-%         grid on
-%         hold off
-% 
-%         nexttile([1 2])
-%         h = bar(1:size(Y,2), varargout{3}.loadings(:,2)');
-%         h.FaceColor = 'flat';
-%         if isfield(options, 'color')
-%             h.CData = options.color;
-%         end
-%         hold on
-%         errorbar([1:size(Y,2)], varargout{3}.loadings(:,2)', varargout{3}.loadings(:,2)' - prctile(varargout{3}.loadings_boot{2}, 2.5), prctile(varargout{3}.loadings_boot{2}, 97.5) - varargout{3}.loadings(:,2)', 'LineStyle', 'none')
-%         if options.show_varnames == 'yes'
-%             set(gca,'XTick',[1:size(Y,2)]);
-%             set(gca,'XTickLabel',Y_vars, 'XTickLabelRotation', 90, 'FontSize', 4);
-%         end
-%         title('Loadings', 'FontSize',8)
-%         grid on
-%         hold off
-%     end
-% end
-% 
-% %% For univariate p-values
-% clear q
-% if isfield(options, 'pval') == 0;
-%     options.pval = ''; % no table by default
-% end
-% 
-% if options.pval == 'yes'
-%     for i = 1:size(Y,2)
-%         lme = fitlmematrix(X, Y(:,i), Z, G);
-%         B(:,i) = lme.Coefficients.Estimate;
-%         result = anova(lme, 'DFMethod', 'satterthwaite');
-%         p(:,i) = result.pValue;
-%     end
-%     
-%     for i = 1:size(Y,2)
-%         [~, ~, q(:,i)] = fdr_bh(p(:,i));
-%     end
-%     
-%     pvaltab = table();
-%     for i = 1:size(X,2)
-%         tab_P = table(B(i,:)', p(i,:)', q(i,:)');
-%         tab_P.Properties.VariableNames = ['coef'+i, 'p'+i, 'q'+i];
-%         pvaltab = [pvaltab, tab_P];
-%     end
-%     pvaltab.VarNames = Y_vars';
-%     varargout{length(varargout)+1} = pvaltab(:, ['VarNames', pvaltab.Properties.VariableNames(1:end-1)]);
-% end
 end
