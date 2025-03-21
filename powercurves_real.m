@@ -41,7 +41,7 @@ for m = 1:length(effectsize)
         coverage_B = ~((CI_treatment(4) < CI_control(2)) || (CI_treatment(2) > CI_control(4)));      
      
         p_B = M_B.pval;
-        p_B_perm = M_B.pval_perm;
+        p_B_perm = M_B.pval_perm1;
         p_B_perm_f = M_B.pval_perm3;
     
         writematrix(coverage_B,[options.directory 'CI_treatment'  num2str(s)  '_'  num2str(effectsize(m))  '_unconstrained'  '.txt']);

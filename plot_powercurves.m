@@ -35,8 +35,10 @@ center = 'off';
 [VarHigh5Comp1, VarHigh5Comp2] = collect_results(output_dir, effectsize, n_sim, iterations)
 axis([effectsize(1:2) 0 1])
 saveas(gcf,'./Figures/VarHigh5zoom');
+saveas(gcf,'./Figures/VarHigh5zoom','epsc');
 axis([effectsize([1 end]) 0 1])
 saveas(gcf,'./Figures/VarHigh5');
+saveas(gcf,'./Figures/VarHigh5','epsc');
 
 
 %% High variance treatment effect, ncomp = 50
@@ -50,8 +52,10 @@ center = 'off';
 [VarHigh50Comp1, VarHigh50Comp2] = collect_results(output_dir, effectsize, n_sim, iterations)
 axis([effectsize(1:2) 0 1])
 saveas(gcf,'./Figures/VarHigh50zoom');
+saveas(gcf,'./Figures/VarHigh50zoom','epsc');
 axis([effectsize([1 end]) 0 1])
 saveas(gcf,'./Figures/VarHigh50');
+saveas(gcf,'./Figures/VarHigh50','epsc');
 
 
 %% Treatment effect in real data
@@ -64,7 +68,9 @@ center = 'off';
 [VarLow5Comp1, VarLow5Comp2] = collect_results(output_dir, effectsize, n_sim, iterations)
 axis([effectsize(1:2) 0 1])
 saveas(gcf,'./Figures/VarRealzoom');
+saveas(gcf,'./Figures/VarRealzoom','epsc');
 axis([effectsize([1 end]) 0 1])
 saveas(gcf,'./Figures/VarReal');
+saveas(gcf,'./Figures/VarReal','epsc');
 
 

@@ -78,6 +78,8 @@ for iii = 1:2 % 2 replicates
         plot(ncomp_values, pval_perm(:,ii), 'green');
         plot(ncomp_values, pval_perm3(:,ii), 'blue');
         legend('GLLR', 'perm', 'perm-f')
+        saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii));
+        saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii),'epsc');
         
         save sim_real
         
