@@ -3,7 +3,7 @@ Matlab scripts for the manuscript "Statistical validation of multivariate treatm
 
 Reproduce Results:  
 1 - Figure 2 can be reproduced with routine 1 (computations are lengthy and were performed in a computing server) and visualizations with routine 2.  
-2 - Figures 3 and 4, and Supplementary Figure 1, can be reproduced with routines 3 and 4.  
+2 - Figures 3 and 4, and Supplementary Figure 1, can be reproduced with routines 3 and 4  (computations are lengthy and were performed in a computing server) and visualizations with routine 2.  
 3 - Figure 5 can be reproduced with routine 5.  
 
 Code Files:  
