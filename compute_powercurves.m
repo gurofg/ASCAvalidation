@@ -21,7 +21,7 @@
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 %% General settings
-effectsize = 0:0.1:1
+effectsize = 0:0.5:2;
 n_sim = 200;
 iterations = 200;
 
@@ -37,7 +37,6 @@ powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, cent
 
 %% High variance treatment effect, ncomp = 50
 
-effectsize = 0:0.1:0.3 % quitar
 output_dir = './Script_50/';
 nrcomps = 50;
 expvar = 'high';
@@ -48,7 +47,7 @@ powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, cent
 
 %% Treatment effect in real data
 
-effectsize = 0:0.025:0.25;
+effectsize = 0:0.04:0.2;
 output_dir = './Script_Real/';
 nrcomps = 5;
 center = 'off';

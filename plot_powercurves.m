@@ -21,7 +21,7 @@
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 %% General settings
-effectsize = 0:0.1:1
+effectsize = 0:0.5:2;
 n_sim = 200;
 iterations = 200;
 
@@ -43,7 +43,6 @@ saveas(gcf,'./Figures/VarHigh5','epsc');
 
 %% High variance treatment effect, ncomp = 50
 
-effectsize = 0:0.1:0.3 % quitar
 output_dir = './Script_50/';
 nrcomps = 50;
 expvar = 'high';
@@ -72,5 +71,47 @@ saveas(gcf,'./Figures/VarRealzoom','epsc');
 axis([effectsize([1 end]) 0 1])
 saveas(gcf,'./Figures/VarReal');
 saveas(gcf,'./Figures/VarReal','epsc');
+
+
+%% P-values in terms of the number of components  from simulated data with effects in a 
+% specific component
+
+effectsize = 0:0.12:0.6
+load sim_emb
+for iii = 1:2 % 2 replicates
+    for ii = 1:length(effectsize)
+        % Plot p-values
+        figure;
+        ylabel('P-value'); xlabel('Number of components'); title(sprintf('Effect Size %d',effectsize(ii))); hold on
+        plot(ncomp_values, pval_GLLR(:,ii,iii), 'red');
+        plot(ncomp_values, pval_perm(:,ii,iii), 'green');
+        plot(ncomp_values, pval_perm3(:,ii,iii), 'blue');
+        plot(ncomp_values, pval_perm1p(:,ii,iii), 'cyan');
+        plot(ncomp_values, pval_perm3p(:,ii,iii), 'magenta');
+        legend('GLLR', 'perm', 'perm-f', 'perm_P', 'perm-f_P')
+        saveas(gcf,sprintf('./Figures/pvalues_emb_%d_%d',iii,ii));
+        saveas(gcf,sprintf('./Figures/pvalues_emd_%d_%d',iii,ii),'epsc');
+    end
+end
+
+%% P-values in terms of the number of components in real data
+
+effectsize = 0:0.04:0.2
+load sim_real
+for iii = 1:2 % 2 replicates
+    for ii = 1:length(effectsize)
+        % Plot p-values
+        figure;
+        ylabel('P-value'); xlabel('Number of components'); title(sprintf('Effect Size %d',effectsize(ii))); hold on
+        plot(ncomp_values, pval_GLLR(:,ii,iii), 'red');
+        plot(ncomp_values, pval_perm1(:,ii,iii), 'green');
+        plot(ncomp_values, pval_perm3(:,ii,iii), 'blue');
+        plot(ncomp_values, pval_perm1p(:,ii,iii), 'cyan');
+        plot(ncomp_values, pval_perm3p(:,ii,iii), 'magenta');
+        legend('GLLR', 'perm', 'perm-f', 'perm_P', 'perm-f_P')
+        saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii));
+        saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii),'epsc');
+    end
+end
 
 

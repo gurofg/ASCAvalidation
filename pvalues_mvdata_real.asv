@@ -47,7 +47,7 @@ options.permute = 'yes';
 options.newID = 'false';
 options.center = 'off';
 
-effectsize = 0:0.025:1
+effectsize = 0:0.04:0.2
 effect = [.5,0,2,1] % small time effect, zero treatment effect, large individual effect, moderate interaction
 for iii = 1:2 % 2 replicates
     for ii = 1:length(effectsize)
@@ -69,8 +69,21 @@ for iii = 1:2 % 2 replicates
             pval_perm1(i,ii,iii) = M_B.pval_perm1;
             pval_perm3(i,ii,iii) = M_B.pval_perm3;
             pval_perm1p(i,ii,iii) = M_B.pval_perm1p;
-            pval_perm3p(i,ii,iii) = M_B.pval_perm3p;
+            pval_perm3(i,ii,iii) = M_B.pval_perm3p;
         end
+        
+        % Plot p-values
+        
+        figure;
+        ylabel('P-value'); xlabel('Number of components'); title(sprintf('Effect Size %d',effectsize(ii))); hold on
+        plot(ncomp_values, pval_GLLR(:,ii,iii), 'red');
+        plot(ncomp_values, pval_perm1(:,ii,iii), 'green');
+        plot(ncomp_values, pval_perm3(:,ii,iii), 'blue');
+        plot(ncomp_values, pval_perm1p(:,ii,iii), 'cian');
+        plot(ncomp_values, pval_perm3p(:,ii,iii), 'cian');
+        legend('GLLR', 'perm', 'perm-f')
+        saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii));
+        saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii),'epsc');
         
         save sim_real
         

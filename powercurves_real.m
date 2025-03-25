@@ -5,8 +5,6 @@ j = 200; % number of manifest variables to simulate in Y
 A = 100; % number of significant variables
 samplesize =  50;
 
-effectsize = 0:0.04:0.2;
-
 % Specify RM-LiMM-PCA modeling options
 options.iterations = iterations;
 options.baseline = 'ucLDA'; % Constrain the baseline means
@@ -34,7 +32,7 @@ for m = 1:length(effectsize)
     
         data = simulate_mvdata_real(samplesize, j, A, effectsize(m),effectsize);
         
-        [~, M_B, ~] = RM_LiMM_PCA_sim_Pepe(data, options);
+        [~, M_B, ~] = RM_LiMM_PCA_sim(data, options);
         
         CI_treatment = [prctile(M_B.scores_boot{1,2}, [2.5]), prctile(M_B.scores_boot{1,2}, [97.5])];
         CI_control = [prctile(M_B.scores_boot{1,1}, [2.5]), prctile(M_B.scores_boot{1,1}, [97.5])];

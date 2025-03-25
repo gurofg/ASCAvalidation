@@ -6,8 +6,6 @@ A = 100; % number of latent variables (principal components) to simulate
 d = 3; % which component should contain the design effects
 samplesize =  50;
 
-effectsize = 0:0.12:0.6;
-
 % Specify RM-LiMM-PCA modeling options
 options.iterations = iterations;
 options.baseline = 'ucLDA'; % Constrain the baseline means
