@@ -58,7 +58,7 @@ for iii = 1:2 % 2 replicates
         data = simulate_mvdata_real(samplesize, j, A, effectsize(ii), effect); % function for simulating multivariate data
         options.Y_vars = data.Properties.VariableNames(30:end);
         
-        for i = 1:length(ncomp_values)
+        parfor i = 1:length(ncomp_values)
             i
             options2 = options;
             options2.ncomp = ncomp_values(i);
