@@ -76,7 +76,6 @@ saveas(gcf,'./Figures/VarReal','epsc');
 %% P-values in terms of the number of components  from simulated data with effects in a 
 % specific component
 
-effectsize = 0:0.12:0.6
 load sim_emb
 for iii = 1:2 % 2 replicates
     for ii = 1:length(effectsize)
@@ -96,7 +95,6 @@ end
 
 %% P-values in terms of the number of components in real data
 
-effectsize = 0:0.04:0.2
 load sim_real
 for iii = 1:2 % 2 replicates
     for ii = 1:length(effectsize)
