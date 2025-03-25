@@ -31,7 +31,7 @@ A = 100; % number of latent variables (principal components) to simulate
 d = 3; % which component should contain the design effects
 samplesize =  50;
 
-ncomp_values = [1:2:10,20:10:40]
+ncomp_values = [1:10 15 20:10:40]
 
 options.plot = 'off';
 options.CI = 'off';
