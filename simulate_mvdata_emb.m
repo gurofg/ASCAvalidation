@@ -5,7 +5,7 @@
 %
 % coded by: Jose Camacho Paez (josecamacho@ugr.es)
 %       Torfinn Støve Madssen (torfinn.s.madssen@ntnu.no)
-% last modification: 17/March/2025
+% last modification: 26/March/2025
 % 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 % j: Total number of variables
 % A: Number of components
 % d: affect component
-% effecsize: [0, 1] 
+% effecsize: [0, Inf] 
 % expvar: amount of explained variance
 % effect: standard deviation coefficients
 
@@ -51,24 +51,7 @@ data2.ID(size(F,1)/2+1:end)=data2.ID(size(F,1)/2+1:end)+NP;
 data2.timepoint = F(:,2);
 data2.treatment = F(:,1);
 
-% Xpac = randn(NP*NT,NSV); % NP*NT to make patient nested in treatment
-% Xpac = Xpac/norm(Xpac);
-% Xtime = randn(NT,NSV);
-% Xtime = Xtime/norm(Xtime);
-% Xtreat =  randn(NTr,NSV);
-% Xtreat  = Xtreat/norm(Xtreat);
-% Xinter =  randn(NTr*NT,NSV);
-% Xinter  = Xinter/norm(Xinter);
-% for i = 1:size(F,1)
-%     Xstruct(i,:) = effect(1)*Xtreat(F(i,1),:) + effect(2)*Xtime(F(i,2),:) + effect(3)*Xpac(F(i,1)*(NT-1) + F(i,3),:) + effect(4)*Xinter(F(i,1)*(NT-1) + F(i,2),:);
-% end
-%         
-% Xnoise = randn(size(F,1),NV);
-% %Xnoise = exprnd(1,length(obs_l),length(var_l)).^3; % This is the only change in this branch (same in all subfolders)
-% Xnoise = Xnoise/norm(Xnoise);
-% 
-% y = (1-effectsize)*Xnoise;
-% y(:,1:NSV) = y(:,1:NSV) + effectsize*Xstruct;
+% Following Camacho and Armstrong. "Population Power Curves in ASCA With Permutation Testing." Journal of Chemometrics 38, no. 12 (2024): e3596.
 
 Xpac = randn(NP*NT,NSV); 
 Xpac = sqrt(NP*NT)*Xpac/norm(Xpac,'fro'); 
@@ -81,11 +64,11 @@ Xinter = sqrt(NTr*NT)*Xinter/norm(Xinter,'fro');
 for i = 1:size(F,1)
     Xstruct(i,:) = effect(1)*Xtreat(F(i,1),:) + effect(2)*Xtime(F(i,2),:) + effect(3)*Xpac(F(i,1)*(NT-1) + F(i,3),:) + effect(4)*Xinter(F(i,1)*(NT-1) + F(i,2),:);
 end
-        
+
 Xnoise = randn(size(F,1),NV);
 Xnoise = sqrt(size(F,1))*Xnoise/norm(Xnoise,'fro');
 
-y = Xnoise; 
+y = (1-effectsize)*Xnoise; 
 y(:,1:NSV) = y(:,1:NSV) + effectsize*Xstruct;
 
 y = preprocess2D(y,2);
@@ -128,24 +111,7 @@ end
 mat = rand(j, A);
 P = orth(mat-(ones(j,1)*mean(mat)));
 
-Y = T*P'; %+ rand(size(T,1),j); % generating response matrix
-% E = randn(size(Y,1), size(Y,2));
-% Y = Y + E;
-
-% Verify that the design is correctly simulated
-% [loadings, scores, eigen] = pca(Y);
-%         figure;
-%         for e = 1:9
-%             subplot(3,3,e); hold on
-%             yplot = scores(:,e);
-%             for i = 1:n_subjects
-%                 if unique(data2.treatment(data2.ID == subjects(i))) == 1
-%                     colorvec = 'b';
-%                 else colorvec = 'r';
-%                 end
-%                 plot(yplot(data2.ID == subjects(i)), 'color', colorvec)
-%             end
-%         end
+Y = T*P'; 
 
 Y = array2table(Y);
 data = [data2, Y];

@@ -4,7 +4,7 @@
 %
 % coded by: Jose Camacho Paez (josecamacho@ugr.es)
 %       Torfinn Støve Madssen (torfinn.s.madssen@ntnu.no)
-% last modification: 17/March/2025
+% last modification: 26/March/2025
 % 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 % samplesize: Number of patients within each cell
 % j: Total number of variables
 % A: Number of significant variables (the first ones)
-% effecsize: [0, 1] 
+% effecsize: [0, Inf] 
 % effect: standard deviation coefficients
 
 function [data] = simulate(samplesize, j, A, effectsize, effect)
@@ -46,25 +46,6 @@ data2.ID = F(:,3);
 data2.ID(size(F,1)/2+1:end)=data2.ID(size(F,1)/2+1:end)+NP;
 data2.timepoint = F(:,2);
 data2.treatment = F(:,1);
-
-% Xpac = randn(NP*NT,NSV); % NP*NT to make patient nested in treatment
-% Xpac = Xpac/norm(Xpac);
-% Xtime = randn(NT,NSV);
-% Xtime = Xtime/norm(Xtime);
-% Xtreat =  randn(NTr,NSV);
-% Xtreat  = Xtreat/norm(Xtreat);
-% Xinter =  randn(NTr*NT,NSV);
-% Xinter  = Xinter/norm(Xinter);
-% for i = 1:size(F,1)
-%     Xstruct(i,:) = effect(1)*Xtreat(F(i,1),:) + effect(2)*Xtime(F(i,2),:) + effect(3)*Xpac(F(i,1)*(NT-1) + F(i,3),:) + effect(4)*Xinter(F(i,1)*(NT-1) + F(i,2),:);
-% end
-% 
-% Xnoise = randn(size(F,1),NV);
-% %Xnoise = exprnd(1,length(obs_l),length(var_l)).^3; % This is the only change in this branch (same in all subfolders)
-% Xnoise = Xnoise/norm(Xnoise);
-% 
-% Y = (1-effectsize)*Xnoise;
-% Y(:,1:NSV) = Y(:,1:NSV) + effectsize*Xstruct;
 
 % Following Camacho and Armstrong. "Population Power Curves in ASCA With Permutation Testing." Journal of Chemometrics 38, no. 12 (2024): e3596.
 

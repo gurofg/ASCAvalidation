@@ -5,7 +5,7 @@
 %
 % coded by: Torfinn Støve Madssen (torfinn.s.madssen@ntnu.no)
 %       Jose Camacho Paez (josecamacho@ugr.es)
-% last modification: 20/March/2025
+% last modification: 26/March/2025
 % 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -21,12 +21,13 @@
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 %% General settings
-effectsize = 0:0.5:2;
+
 n_sim = 200;
 iterations = 200;
 
 %% High variance treatment effect, ncomp = 5.
 
+effectsize = 0:0.4:2;
 output_dir = './Script_5/';
 nrcomps = 5;
 expvar = 'high';
@@ -37,6 +38,7 @@ powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, cent
 
 %% High variance treatment effect, ncomp = 50
 
+effectsize = 0:0.4:2;
 output_dir = './Script_50/';
 nrcomps = 50;
 expvar = 'high';

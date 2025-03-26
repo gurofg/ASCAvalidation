@@ -186,7 +186,7 @@ if isequal(options.GLLR,'yes')
     end
     
     for r = 2
-        varargout{r}.pval = sum(bootstrapped_gll{r} >=gllr_obs(r))/options.iterations;
+        varargout{r}.pval = (sum(bootstrapped_gll{r} >=gllr_obs(r)) + 1)/(options.iterations + 1);
         varargout{r}.GLLR_b = bootstrapped_gll{r};
         varargout{r}.GLLR_obs = gllr_obs(r);
     end
@@ -224,9 +224,9 @@ if isequal( options.permute,'yes')
         teststat_perm_F_ratio(i) = sum(sum((M_treatment_perm).^2))/(sum(sum((E_perm).^2))/(size(X,1)-rank(X)));
     end
 
-    varargout{2}.pval_perm1 = (sum(teststat_perm_SSQ > teststat_perm_obs_SSQ))/options.iterations;
-    varargout{2}.pval_perm2 = (sum(teststat_perm_T_SSQ > teststat_perm_obs_T_SSQ))/options.iterations;
-    varargout{2}.pval_perm3 = (sum(teststat_perm_F_ratio > teststat_perm_obs_F_ratio))/options.iterations;
+    varargout{2}.pval_perm1 = (sum(teststat_perm_SSQ > teststat_perm_obs_SSQ)+1)/(options.iterations+1);
+    varargout{2}.pval_perm2 = (sum(teststat_perm_T_SSQ > teststat_perm_obs_T_SSQ)+1)/(options.iterations+1);
+    varargout{2}.pval_perm3 = (sum(teststat_perm_F_ratio > teststat_perm_obs_F_ratio)+1)/(options.iterations+1);
 end
 
 %% Permutation test: Pepe's choice 
@@ -265,9 +265,9 @@ if options.permute == 'yes'
         teststat_perm3(i) = sum(sum((M_treatment_perm).^2))/(sum(sum((E_perm).^2))/(100-rank(X)));
     end
 
-    varargout{2}.pval_perm1p = (sum(teststat_perm > teststat_perm_obs))/options.iterations;
-    varargout{2}.pval_perm2p = (sum(teststat_perm2 > teststat_perm_obs2))/options.iterations;
-    varargout{2}.pval_perm3p = (sum(teststat_perm3 > teststat_perm_obs3))/options.iterations;
+    varargout{2}.pval_perm1p = (sum(teststat_perm > teststat_perm_obs)+1)/(options.iterations+1);
+    varargout{2}.pval_perm2p = (sum(teststat_perm2 > teststat_perm_obs2)+1)/(options.iterations+1);
+    varargout{2}.pval_perm3p = (sum(teststat_perm3 > teststat_perm_obs3)+1)/(options.iterations+1);
 
 end
 
