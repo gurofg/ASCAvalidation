@@ -85,7 +85,7 @@ for iii = 1:2 % 2 replicates
         figure;
         ylabel('P-value'); xlabel('Number of components'); title(sprintf('Effect Size %d',effectsize(ii))); hold on
         plot(ncomp_values, pval_GLLR(:,ii,iii), 'red');
-        plot(ncomp_values, pval_perm(:,ii,iii), 'green');
+        plot(ncomp_values, pval_perm1(:,ii,iii), 'green');
         plot(ncomp_values, pval_perm3(:,ii,iii), 'blue');
         plot(ncomp_values, pval_perm1p(:,ii,iii), 'cyan');
         plot(ncomp_values, pval_perm3p(:,ii,iii), 'magenta');
