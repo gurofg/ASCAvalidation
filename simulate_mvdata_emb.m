@@ -26,7 +26,7 @@
 % j: Total number of variables
 % A: Number of components
 % d: affect component
-% effecsize: [0, Inf] 
+% effecsize: [0, 1] 
 % expvar: amount of explained variance
 % effect: standard deviation coefficients
 
@@ -68,7 +68,7 @@ end
 Xnoise = randn(size(F,1),NV);
 Xnoise = sqrt(size(F,1))*Xnoise/norm(Xnoise,'fro');
 
-y = (1-effectsize)*Xnoise; 
+y = (1-effectsize)*Xnoise; % for the embeded simulation, we make sure that the noise within the pc can cancel out, so that the unisterested variance is represented by the variance in the other components
 y(:,1:NSV) = y(:,1:NSV) + effectsize*Xstruct;
 
 y = preprocess2D(y,2);

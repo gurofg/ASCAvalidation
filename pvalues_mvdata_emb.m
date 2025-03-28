@@ -50,7 +50,7 @@ options.center = 'off';
 effectsize = 0:0.04:0.2
 expvar = 'high';
 effect = [0,.5,2,1] % zero treatment effect, small time effect, large individual effect, moderate interaction
-for iii = 1:2 % 2 replicates
+for iii = 1 % 1 replicate
     for ii = 1:length(effectsize)
         effectsize(ii)
         
