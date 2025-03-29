@@ -47,7 +47,7 @@ options.permute = 'yes';
 options.newID = 'false';
 options.center = 'off';
 
-effectsize = 0:0.04:0.2
+effectsize = 0:0.08:0.4
 expvar = 'high';
 effect = [0,.5,2,1] % zero treatment effect, small time effect, large individual effect, moderate interaction
 for iii = 1 % 1 replicate

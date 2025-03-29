@@ -3,7 +3,7 @@
 % Chemometrics, 2025. This example generates relative population power
 % curves (see Journal of Chemometrics, 2024, 38 (12): e3596
 %
-% coded by: Torfinn Støve Madssen (torfinn.s.madssen@ntnu.no)
+% coded by: Torfinn StÃ¸ve Madssen (torfinn.s.madssen@ntnu.no)
 %       Jose Camacho Paez (josecamacho@ugr.es)
 % last modification: 26/March/2025
 % 
@@ -90,7 +90,6 @@ for iii = 1 % 1 replicate
         plot(ncomp_values, pval_perm1p(:,ii,iii), 'cyan');
         plot(ncomp_values, pval_perm3p(:,ii,iii), 'magenta');
         legend('GLLR', 'perm', 'perm-f', 'perm_P', 'perm-f_P')
-        axis([1 max(ncomp_values) 0 1])
         saveas(gcf,sprintf('./Figures/pvalues_emb_%d_%d',iii,ii));
         saveas(gcf,sprintf('./Figures/pvalues_emd_%d_%d',iii,ii),'epsc');
     end
@@ -110,7 +109,7 @@ for iii = 1:2 % 2 replicates
         plot(ncomp_values, pval_perm1p(:,ii,iii), 'cyan');
         plot(ncomp_values, pval_perm3p(:,ii,iii), 'magenta');
         legend('GLLR', 'perm', 'perm-f', 'perm_P', 'perm-f_P')
-        axis([1 max(ncomp_values) 0 1])
+        axis([])
         saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii));
         saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii),'epsc');
     end

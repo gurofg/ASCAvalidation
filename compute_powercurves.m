@@ -27,7 +27,7 @@ iterations = 200;
 
 %% High variance treatment effect, ncomp = 5.
 
-effectsize = 0:0.04:0.2
+effectsize = 0:0.1:1
 output_dir = './Script_5/';
 nrcomps = 5;
 expvar = 'high';
@@ -38,7 +38,7 @@ powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, cent
 
 %% High variance treatment effect, ncomp = 50
 
-effectsize = 0:0.04:0.2
+effectsize = 0:0.1:1
 output_dir = './Script_50/';
 nrcomps = 50;
 expvar = 'high';
