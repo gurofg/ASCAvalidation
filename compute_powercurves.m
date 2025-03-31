@@ -27,33 +27,24 @@ iterations = 200;
 
 %% High variance treatment effect, ncomp = 5.
 
+effect = [0,.5,1,1] % zero treatment effect, small time effect, moderate individual effect, moderate interaction
 effectsize = 0:0.1:1
-output_dir = './Script_5/';
+output_dir = './Script_Emb/';
 nrcomps = 5;
 expvar = 'high';
 center = 'off';
 
-powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, center)
-
-
-%% High variance treatment effect, ncomp = 50
-
-effectsize = 0:0.1:1
-output_dir = './Script_50/';
-nrcomps = 50;
-expvar = 'high';
-center = 'off';
-
-powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, center)
+powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, center, effect)
 
 
 %% Treatment effect in real data
 
+effect = [0,.5,2,1] % zero treatment effect, small time effect, large individual effect, moderate interaction
 effectsize = 0:0.04:0.2;
 output_dir = './Script_Real/';
 nrcomps = 5;
 center = 'off';
 
-powercurves_real(output_dir, nrcomps, effectsize, n_sim, iterations, center)
+powercurves_real(output_dir, nrcomps, effectsize, n_sim, iterations, center, effect)
 
 

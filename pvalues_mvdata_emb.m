@@ -6,7 +6,7 @@
 %
 % coded by: Torfinn Støve Madssen (torfinn.s.madssen@ntnu.no)
 %       Jose Camacho Paez (josecamacho@ugr.es)
-% last modification: 26/March/2025
+% last modification: 31/March/2025
 % 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -47,9 +47,9 @@ options.permute = 'yes';
 options.newID = 'false';
 options.center = 'off';
 
-effectsize = 0:0.08:0.4
+effectsize = 0:0.1:0.5
 expvar = 'high';
-effect = [0,.5,2,1] % zero treatment effect, small time effect, large individual effect, moderate interaction
+effect = [0,.5,1,1] % zero treatment effect, small time effect, moderate individual effect, moderate interaction
 for iii = 1 % 1 replicate
     for ii = 1:length(effectsize)
         effectsize(ii)
@@ -69,8 +69,6 @@ for iii = 1 % 1 replicate
             pval_GLLR(i,ii,iii) = M_B.pval;
             pval_perm1(i,ii,iii) = M_B.pval_perm1;
             pval_perm3(i,ii,iii) = M_B.pval_perm3;
-            pval_perm1p(i,ii,iii) = M_B.pval_perm1p;
-            pval_perm3p(i,ii,iii) = M_B.pval_perm3p;
         end
         
         save sim_emb

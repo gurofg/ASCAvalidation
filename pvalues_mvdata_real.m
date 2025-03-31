@@ -68,8 +68,6 @@ for iii = 1:2 % 2 replicates
             pval_GLLR(i,ii,iii) = M_B.pval;
             pval_perm1(i,ii,iii) = M_B.pval_perm1;
             pval_perm3(i,ii,iii) = M_B.pval_perm3;
-            pval_perm1p(i,ii,iii) = M_B.pval_perm1p;
-            pval_perm3p(i,ii,iii) = M_B.pval_perm3p;
         end
         
         save sim_real

@@ -1,4 +1,4 @@
-function powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, center)
+function powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, center, effect)
 
 % Specify simulation settings
 j = 200; % number of manifest variables to simulate in Y
@@ -19,7 +19,7 @@ options.plot = 'yes'; % Turn off automatic plotting
 options.directory = output_dir; 
 options.center = center;
 
-data = simulate_mvdata_emb(samplesize, j, A, d, effectsize(1), expvar, effectsize); % function for simulating multivariate data
+data = simulate_mvdata_emb(samplesize, j, A, d, effectsize(1), expvar, effect); % function for simulating multivariate data
 options.Y_vars = data.Properties.VariableNames(4:end);
 
 options2 = options;
@@ -31,7 +31,7 @@ for m = 1:length(effectsize)
 
     parfor s = 1:n_sim
     
-        data = simulate_mvdata_emb(samplesize, j, A, d, effectsize(m), expvar, effectsize);
+        data = simulate_mvdata_emb(samplesize, j, A, d, effectsize(m), expvar, effect);
         
         [~, M_B, ~] = RM_LiMM_PCA_sim(data, options);
         

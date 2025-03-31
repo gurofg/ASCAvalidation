@@ -27,7 +27,7 @@ iterations = 200;
 
 %% High variance treatment effect, ncomp = 5.
 
-effectsize = 0:0.4:2;
+effectsize = 0:0.1:1;
 output_dir = './Script_5/';
 nrcomps = 5;
 expvar = 'high';
@@ -40,23 +40,6 @@ saveas(gcf,'./Figures/VarHigh5zoom','epsc');
 axis([effectsize([1 end]) 0 1])
 saveas(gcf,'./Figures/VarHigh5');
 saveas(gcf,'./Figures/VarHigh5','epsc');
-
-
-%% High variance treatment effect, ncomp = 50
-
-effectsize = 0:0.4:2;
-output_dir = './Script_50/';
-nrcomps = 50;
-expvar = 'high';
-center = 'off';
-
-[VarHigh50Comp1, VarHigh50Comp2] = collect_results(output_dir, effectsize, n_sim, iterations)
-axis([effectsize(1:2) 0 1])
-saveas(gcf,'./Figures/VarHigh50zoom');
-saveas(gcf,'./Figures/VarHigh50zoom','epsc');
-axis([effectsize([1 end]) 0 1])
-saveas(gcf,'./Figures/VarHigh50');
-saveas(gcf,'./Figures/VarHigh50','epsc');
 
 
 %% Treatment effect in real data
@@ -87,9 +70,7 @@ for iii = 1 % 1 replicate
         plot(ncomp_values, pval_GLLR(:,ii,iii), 'red');
         plot(ncomp_values, pval_perm1(:,ii,iii), 'green');
         plot(ncomp_values, pval_perm3(:,ii,iii), 'blue');
-        plot(ncomp_values, pval_perm1p(:,ii,iii), 'cyan');
-        plot(ncomp_values, pval_perm3p(:,ii,iii), 'magenta');
-        legend('GLLR', 'perm', 'perm-f', 'perm_P', 'perm-f_P')
+        legend('GLLR', 'perm', 'perm-f')
         axis([1 max(ncomp_values) 0 1])
         saveas(gcf,sprintf('./Figures/pvalues_emb_%d_%d',iii,ii));
         saveas(gcf,sprintf('./Figures/pvalues_emd_%d_%d',iii,ii),'epsc');
@@ -107,9 +88,7 @@ for iii = 1:2 % 2 replicates
         plot(ncomp_values, pval_GLLR(:,ii,iii), 'red');
         plot(ncomp_values, pval_perm1(:,ii,iii), 'green');
         plot(ncomp_values, pval_perm3(:,ii,iii), 'blue');
-        plot(ncomp_values, pval_perm1p(:,ii,iii), 'cyan');
-        plot(ncomp_values, pval_perm3p(:,ii,iii), 'magenta');
-        legend('GLLR', 'perm', 'perm-f', 'perm_P', 'perm-f_P')
+        legend('GLLR', 'perm', 'perm-f')
         axis([1 max(ncomp_values) 0 1])
         saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii));
         saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii),'epsc');

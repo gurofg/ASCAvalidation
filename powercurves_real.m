@@ -1,4 +1,4 @@
-function powercurves_real(output_dir, nrcomps, effectsize, n_sim, iterations, center)
+function powercurves_real(output_dir, nrcomps, effectsize, n_sim, iterations, center, effect)
 
 % Specify simulation settings
 j = 200; % number of manifest variables to simulate in Y
@@ -18,7 +18,7 @@ options.plot = 'yes'; % Turn off automatic plotting
 options.directory = output_dir; 
 options.center = center;
 
-data = simulate_mvdata_real(samplesize, j, A, effectsize(1), effectsize); % function for simulating multivariate data
+data = simulate_mvdata_real(samplesize, j, A, effectsize(1), effect); % function for simulating multivariate data
 options.Y_vars = data.Properties.VariableNames(4:end);
 
 options2 = options;
@@ -30,7 +30,7 @@ for m = 1:length(effectsize)
 
     parfor s = 1:n_sim
     
-        data = simulate_mvdata_real(samplesize, j, A, effectsize(m),effectsize);
+        data = simulate_mvdata_real(samplesize, j, A, effectsize(m), effect);
         
         [~, M_B, ~] = RM_LiMM_PCA_sim(data, options);
         

@@ -229,47 +229,51 @@ if isequal( options.permute,'yes')
     varargout{2}.pval_perm3 = (sum(teststat_perm_F_ratio > teststat_perm_obs_F_ratio)+1)/(options.iterations+1);
 end
 
-%% Permutation test: Pepe's choice 
-if options.permute == 'yes'
-
-    teststat_perm_obs = sum(sum((varargout{2}.M).^2));
-    teststat_perm_obs2 = sum(sum((varargout{2}.scores).^2));
-    teststat_perm_obs3 = (sum(sum((varargout{2}.M).^2)))/(sum(sum((varargout{5}).^2))/(100-rank(X)));
-
-    vp = repmat(1:50,2,1);
-    vp = vp(:);
-    up = unique(vp);
-    for i = 1:options.iterations
-        
-        perms = zeros(size(scores_Y,1),1);
-        upp = randperm(length(up));
-        for p = 1:length(up)
-            ind = find(vp == up(p));
-            ind2 = find(vp == upp(p));
-            perms(ind2) = ind;
-        end
-        
-        Y_perm = scores_Y(perms,:);
-            
-        for u = 1:size(scores_Y,2)
-            lme_perm = fitlmematrix(X, Y_perm(:,u), Z, G);
-            b_perm(:,u) = lme_perm.Coefficients.Estimate;
-            E_perm(:,u) = residuals(lme_perm);
-        end
-        
-        M_treatment_perm = X(:, options.GLLR_effects{2})*b_perm(options.GLLR_effects{2}, :);
-        [loadings_perm, scores_perm] = pca(M_treatment_perm, 'Centered', options.center);
-
-        teststat_perm(i) = sum(sum((M_treatment_perm).^2));
-        teststat_perm2(i) = sum(sum((scores_perm).^2));
-        teststat_perm3(i) = sum(sum((M_treatment_perm).^2))/(sum(sum((E_perm).^2))/(100-rank(X)));
-    end
-
-    varargout{2}.pval_perm1p = (sum(teststat_perm > teststat_perm_obs)+1)/(options.iterations+1);
-    varargout{2}.pval_perm2p = (sum(teststat_perm2 > teststat_perm_obs2)+1)/(options.iterations+1);
-    varargout{2}.pval_perm3p = (sum(teststat_perm3 > teststat_perm_obs3)+1)/(options.iterations+1);
-
-end
+% %% Permutation test: Pepe's choice
+% % In ourr experimentation, this option was better (less TI error for the
+% % SSE statistic) but we go for Torfinn's that is closer to the alternative
+% % methods
+% 
+% if options.permute == 'yes'
+% 
+%     teststat_perm_obs = sum(sum((varargout{2}.M).^2));
+%     teststat_perm_obs2 = sum(sum((varargout{2}.scores).^2));
+%     teststat_perm_obs3 = (sum(sum((varargout{2}.M).^2)))/(sum(sum((varargout{5}).^2))/(100-rank(X)));
+% 
+%     vp = repmat(1:50,2,1);
+%     vp = vp(:);
+%     up = unique(vp);
+%     for i = 1:options.iterations
+% 
+%         perms = zeros(size(scores_Y,1),1);
+%         upp = randperm(length(up));
+%         for p = 1:length(up)
+%             ind = find(vp == up(p));
+%             ind2 = find(vp == upp(p));
+%             perms(ind2) = ind;
+%         end
+% 
+%         Y_perm = scores_Y(perms,:);
+% 
+%         for u = 1:size(scores_Y,2)
+%             lme_perm = fitlmematrix(X, Y_perm(:,u), Z, G);
+%             b_perm(:,u) = lme_perm.Coefficients.Estimate;
+%             E_perm(:,u) = residuals(lme_perm);
+%         end
+% 
+%         M_treatment_perm = X(:, options.GLLR_effects{2})*b_perm(options.GLLR_effects{2}, :);
+%         [loadings_perm, scores_perm] = pca(M_treatment_perm, 'Centered', options.center);
+% 
+%         teststat_perm(i) = sum(sum((M_treatment_perm).^2));
+%         teststat_perm2(i) = sum(sum((scores_perm).^2));
+%         teststat_perm3(i) = sum(sum((M_treatment_perm).^2))/(sum(sum((E_perm).^2))/(100-rank(X)));
+%     end
+% 
+%     varargout{2}.pval_perm1p = (sum(teststat_perm > teststat_perm_obs)+1)/(options.iterations+1);
+%     varargout{2}.pval_perm2p = (sum(teststat_perm2 > teststat_perm_obs2)+1)/(options.iterations+1);
+%     varargout{2}.pval_perm3p = (sum(teststat_perm3 > teststat_perm_obs3)+1)/(options.iterations+1);
+% 
+% end
 
 
 %% Nonparametric bootstrapping to calculate confidence intervals
