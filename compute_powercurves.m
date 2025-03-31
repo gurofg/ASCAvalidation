@@ -5,7 +5,7 @@
 %
 % coded by: Torfinn Støve Madssen (torfinn.s.madssen@ntnu.no)
 %       Jose Camacho Paez (josecamacho@ugr.es)
-% last modification: 26/March/2025
+% last modification: 31/March/2025
 % 
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, cent
 %% Treatment effect in real data
 
 effect = [0,.5,2,1] % zero treatment effect, small time effect, large individual effect, moderate interaction
-effectsize = 0:0.04:0.2;
+effectsize = 0:0.04:0.4;
 output_dir = './Script_Real/';
 nrcomps = 5;
 center = 'off';
