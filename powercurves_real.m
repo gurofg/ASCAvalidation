@@ -47,7 +47,7 @@ for m = 1:length(effectsize)
         writematrix(p_B_perm,[options.directory 'pval_treatment_perm'  num2str(s)  '_'  num2str(effectsize(m))  '_unconstrained'  '.txt']);
         writematrix(p_B_perm_f,[options.directory 'pval_treatment_perm_f'  num2str(s)  '_'  num2str(effectsize(m))  '_unconstrained'  '.txt']);
     
-        [~, M_B2, ~] = RM_LiMM_PCA_sim_Pepe(data, options2);
+        [~, M_B2, ~] = RM_LiMM_PCA_sim(data, options2);
 
         CI_treatment2 = [prctile(M_B2.scores_boot{1,2}, [2.5]), prctile(M_B2.scores_boot{1,2}, [97.5])];
         CI_control2 = [prctile(M_B2.scores_boot{1,1}, [2.5]), prctile(M_B2.scores_boot{1,1}, [97.5])];

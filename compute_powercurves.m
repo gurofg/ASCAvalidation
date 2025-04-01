@@ -22,19 +22,19 @@
 
 %% General settings
 
-n_sim = 200;
-iterations = 200;
-
-%% High variance treatment effect, ncomp = 5.
-
-effect = [0,.5,1,1] % zero treatment effect, small time effect, moderate individual effect, moderate interaction
-effectsize = 0:0.1:1
-output_dir = './Script_Emb/';
-nrcomps = 5;
-expvar = 'high';
-center = 'off';
-
-powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, center, effect)
+% n_sim = 200;
+% iterations = 200;
+% 
+% %% High variance treatment effect, ncomp = 5.
+% 
+% effect = [0,.5,1,1] % zero treatment effect, small time effect, moderate individual effect, moderate interaction
+% effectsize = 0:0.1:1
+% output_dir = './Script_Emb/';
+% nrcomps = 5;
+% expvar = 'high';
+% center = 'off';
+% 
+% powercurves_emb(output_dir, nrcomps, effectsize, expvar, n_sim, iterations, center, effect)
 
 
 %% Treatment effect in real data
