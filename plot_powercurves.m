@@ -25,22 +25,6 @@
 n_sim = 200;
 iterations = 200;
 
-%% High variance treatment effect, ncomp = 5.
-
-effectsize = 0:0.1:1;
-output_dir = './Script_5/';
-nrcomps = 5;
-expvar = 'high';
-center = 'off';
-
-[VarHigh5Comp1, VarHigh5Comp2] = collect_results(output_dir, effectsize, n_sim, iterations)
-axis([effectsize(1:2) 0 1])
-saveas(gcf,'./Figures/VarHigh5zoom');
-saveas(gcf,'./Figures/VarHigh5zoom','epsc');
-axis([effectsize([1 end]) 0 1])
-saveas(gcf,'./Figures/VarHigh5');
-saveas(gcf,'./Figures/VarHigh5','epsc');
-
 
 %% Treatment effect in real data
 
@@ -58,24 +42,22 @@ saveas(gcf,'./Figures/VarReal');
 saveas(gcf,'./Figures/VarReal','epsc');
 
 
-%% P-values in terms of the number of components  from simulated data with effects in a 
-% specific component
+%% High variance treatment effect embedded in PC 3
 
-load sim_emb
-for iii = 1 % 1 replicate
-    for ii = 1:length(effectsize)
-        % Plot p-values
-        figure;
-        ylabel('P-value'); xlabel('Number of components'); title(sprintf('Effect Size %.1f',effectsize(ii))); hold on
-        plot(ncomp_values, pval_GLLR(:,ii,iii), 'red');
-        plot(ncomp_values, pval_perm1(:,ii,iii), 'green');
-        plot(ncomp_values, pval_perm3(:,ii,iii), 'blue');
-        legend('GLLR', 'perm', 'perm-f')
-        axis([1 max(ncomp_values) 0 1])
-        saveas(gcf,sprintf('./Figures/pvalues_emb_%d_%d',iii,ii));
-        saveas(gcf,sprintf('./Figures/pvalues_emd_%d_%d',iii,ii),'epsc');
-    end
-end
+effectsize = 0:0.1:1;
+output_dir = './Script_Emb/';
+nrcomps = 5;
+expvar = 'high';
+center = 'off';
+
+[VarHigh5Comp1, VarHigh5Comp2] = collect_results(output_dir, effectsize, n_sim, iterations)
+axis([effectsize(1:2) 0 1])
+saveas(gcf,'./Figures/VarHigh5zoom');
+saveas(gcf,'./Figures/VarHigh5zoom','epsc');
+axis([effectsize([1 end]) 0 1])
+saveas(gcf,'./Figures/VarHigh5');
+saveas(gcf,'./Figures/VarHigh5','epsc');
+
 
 %% P-values in terms of the number of components in real data
 
@@ -96,3 +78,21 @@ for iii = 1:2 % 2 replicates
 end
 
 
+%% P-values in terms of the number of components  from simulated data with effects in a 
+% specific component
+
+load sim_emb
+for iii = 1 % 1 replicate
+    for ii = 1:length(effectsize)
+        % Plot p-values
+        figure;
+        ylabel('P-value'); xlabel('Number of components'); title(sprintf('Effect Size %.1f',effectsize(ii))); hold on
+        plot(ncomp_values, pval_GLLR(:,ii,iii), 'red');
+        plot(ncomp_values, pval_perm1(:,ii,iii), 'green');
+        plot(ncomp_values, pval_perm3(:,ii,iii), 'blue');
+        legend('GLLR', 'perm', 'perm-f')
+        axis([1 max(ncomp_values) 0 1])
+        saveas(gcf,sprintf('./Figures/pvalues_emb_%d_%d',iii,ii));
+        saveas(gcf,sprintf('./Figures/pvalues_emd_%d_%d',iii,ii),'epsc');
+    end
+end

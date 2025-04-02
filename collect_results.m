@@ -59,5 +59,5 @@ plot(varargout{2}.effectsize, varargout{2}.GLLR_coverage_treatment', '--', 'Colo
 plot(varargout{2}.effectsize, varargout{2}.perm_coverage_treatment', '--', 'Color', 'g');
 plot(varargout{2}.effectsize, varargout{2}.perm_f_coverage_treatment', '--', 'Color', 'y');
 xlabel('Effect size')
-ylabel('Coverage')
+ylabel('Power')
 legend('NP bootstrap', 'GLLR', 'perm','perm f', 'NP bootstrap adj', 'GLLR adj', 'perm adj', 'perm f adj', 'Location', 'SouthEast')

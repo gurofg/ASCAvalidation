@@ -1,0 +1,356 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>EXAMPLES of Madssen et al. "Statistical validation of multivariate</title>
+<meta name="generator" content="MATLAB 24.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2025-04-02">
+<meta name="DC.source" content="plot_powercurves.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h1>EXAMPLES of Madssen et al. "Statistical validation of multivariate</h1>
+<!--introduction-->
+<p>treatment effects in longitudinal study designs". Submitted to Journal of Chemometrics, 2025. This example generates relative population power curves (see Journal of Chemometrics, 2024, 38 (12): e3596</p>
+<p>coded by: Torfinn St&oslash;ve Madssen (<a href="mailto:torfinn.s.madssen@ntnu.no">torfinn.s.madssen@ntnu.no</a>) Jose Camacho Paez (<a href="mailto:josecamacho@ugr.es">josecamacho@ugr.es</a>) last modification: 26/March/2025</p>
+<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with this program. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">General settings</a>
+</li>
+<li>
+<a href="#2">Treatment effect in real data</a>
+</li>
+<li>
+<a href="#3">High variance treatment effect embedded in PC 3</a>
+</li>
+<li>
+<a href="#4">P-values in terms of the number of components in real data</a>
+</li>
+<li>
+<a href="#5">P-values in terms of the number of components from simulated data with effects in a</a>
+</li>
+</ul>
+</div>
+<h2 id="1">General settings</h2>
+<pre class="codeinput">n_sim = 200;
+iterations = 200;
+</pre>
+<h2 id="2">Treatment effect in real data</h2>
+<pre class="codeinput">effectsize = 0:0.04:0.2;
+output_dir = <span class="string">'./Script_Real/'</span>;
+nrcomps = 5;
+center = <span class="string">'off'</span>;
+
+[VarLow5Comp1, VarLow5Comp2] = collect_results(output_dir, effectsize, n_sim, iterations)
+axis([effectsize(1:2) 0 1])
+saveas(gcf,<span class="string">'./Figures/VarRealzoom'</span>);
+saveas(gcf,<span class="string">'./Figures/VarRealzoom'</span>,<span class="string">'epsc'</span>);
+axis([effectsize([1 end]) 0 1])
+saveas(gcf,<span class="string">'./Figures/VarReal'</span>);
+saveas(gcf,<span class="string">'./Figures/VarReal'</span>,<span class="string">'epsc'</span>);
+</pre>
+<pre class="codeoutput">
+VarLow5Comp1 =
+
+  6&times;5 table
+
+    effectsize    bootstrap_coverage_treatment    GLLR_coverage_treatment    perm_coverage_treatment    perm_f_coverage_treatment
+    __________    ____________________________    _______________________    _______________________    _________________________
+
+          0                  0.005                          0.06                       0.11                       0.065          
+       0.04                  0.015                         0.085                       0.13                         0.1          
+       0.08                   0.07                          0.31                       0.37                       0.335          
+       0.12                   0.36                          0.74                      0.835                         0.8          
+       0.16                  0.685                         0.965                       0.97                        0.97          
+        0.2                  0.895                             1                          1                           1          
+
+
+VarLow5Comp2 =
+
+  6&times;5 table
+
+    effectsize    bootstrap_coverage_treatment    GLLR_coverage_treatment    perm_coverage_treatment    perm_f_coverage_treatment
+    __________    ____________________________    _______________________    _______________________    _________________________
+
+          0                   0.02                         0.075                      0.115                        0.08          
+       0.04                   0.03                         0.105                       0.15                       0.115          
+       0.08                   0.09                         0.285                      0.395                        0.36          
+       0.12                   0.36                         0.675                        0.8                       0.765          
+       0.16                    0.7                         0.905                      0.975                        0.97          
+        0.2                  0.915                             1                          1                           1          
+
+</pre>
+<img vspace="5" hspace="5" src="plot_powercurves_01.png" alt=""> <h2 id="3">High variance treatment effect embedded in PC 3</h2>
+<pre class="codeinput">effectsize = 0:0.1:1;
+output_dir = <span class="string">'./Script_Emb/'</span>;
+nrcomps = 5;
+expvar = <span class="string">'high'</span>;
+center = <span class="string">'off'</span>;
+
+[VarHigh5Comp1, VarHigh5Comp2] = collect_results(output_dir, effectsize, n_sim, iterations)
+axis([effectsize(1:2) 0 1])
+saveas(gcf,<span class="string">'./Figures/VarHigh5zoom'</span>);
+saveas(gcf,<span class="string">'./Figures/VarHigh5zoom'</span>,<span class="string">'epsc'</span>);
+axis([effectsize([1 end]) 0 1])
+saveas(gcf,<span class="string">'./Figures/VarHigh5'</span>);
+saveas(gcf,<span class="string">'./Figures/VarHigh5'</span>,<span class="string">'epsc'</span>);
+</pre>
+<pre class="codeoutput">
+VarHigh5Comp1 =
+
+  11&times;5 table
+
+    effectsize    bootstrap_coverage_treatment    GLLR_coverage_treatment    perm_coverage_treatment    perm_f_coverage_treatment
+    __________    ____________________________    _______________________    _______________________    _________________________
+
+         0                   0.185                         0.035                      0.055                       0.035          
+       0.1                    0.28                          0.11                      0.075                        0.05          
+       0.2                   0.435                          0.19                       0.08                       0.075          
+       0.3                   0.605                           0.4                       0.21                        0.16          
+       0.4                   0.745                         0.635                      0.375                       0.285          
+       0.5                    0.79                          0.72                       0.42                        0.35          
+       0.6                   0.845                         0.845                      0.515                       0.475          
+       0.7                   0.805                          0.87                      0.535                       0.475          
+       0.8                   0.835                          0.95                      0.595                       0.565          
+       0.9                   0.845                          0.97                       0.56                        0.51          
+         1                   0.865                          0.98                      0.595                        0.55          
+
+
+VarHigh5Comp2 =
+
+  11&times;5 table
+
+    effectsize    bootstrap_coverage_treatment    GLLR_coverage_treatment    perm_coverage_treatment    perm_f_coverage_treatment
+    __________    ____________________________    _______________________    _______________________    _________________________
+
+         0                    0.22                          0.03                       0.07                        0.05          
+       0.1                   0.255                          0.09                       0.08                       0.045          
+       0.2                    0.38                          0.12                       0.07                       0.055          
+       0.3                    0.56                          0.33                       0.19                       0.155          
+       0.4                   0.725                          0.51                      0.355                       0.285          
+       0.5                   0.805                         0.665                       0.53                       0.485          
+       0.6                   0.855                         0.815                       0.65                        0.62          
+       0.7                    0.85                         0.895                       0.64                         0.6          
+       0.8                   0.865                         0.945                      0.715                        0.67          
+       0.9                     0.9                         0.965                      0.725                       0.675          
+         1                   0.895                         0.975                      0.745                        0.69          
+
+</pre>
+<img vspace="5" hspace="5" src="plot_powercurves_02.png" alt=""> <h2 id="4">P-values in terms of the number of components in real data</h2>
+<pre class="codeinput">load <span class="string">sim_real</span>
+<span class="keyword">for</span> iii = 1:2 <span class="comment">% 2 replicates</span>
+    <span class="keyword">for</span> ii = 1:length(effectsize)
+        <span class="comment">% Plot p-values</span>
+        figure;
+        ylabel(<span class="string">'P-value'</span>); xlabel(<span class="string">'Number of components'</span>); title(sprintf(<span class="string">'Effect Size %.2f'</span>,effectsize(ii))); hold <span class="string">on</span>
+        plot(ncomp_values, pval_GLLR(:,ii,iii), <span class="string">'red'</span>);
+        plot(ncomp_values, pval_perm1(:,ii,iii), <span class="string">'green'</span>);
+        plot(ncomp_values, pval_perm3(:,ii,iii), <span class="string">'blue'</span>);
+        legend(<span class="string">'GLLR'</span>, <span class="string">'perm'</span>, <span class="string">'perm-f'</span>)
+        axis([1 max(ncomp_values) 0 1])
+        saveas(gcf,sprintf(<span class="string">'./Figures/pvalues_real_%d_%d'</span>,iii,ii));
+        saveas(gcf,sprintf(<span class="string">'./Figures/pvalues_real_%d_%d'</span>,iii,ii),<span class="string">'epsc'</span>);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+<img vspace="5" hspace="5" src="plot_powercurves_03.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_04.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_05.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_06.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_07.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_08.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_09.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_10.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_11.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_12.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_13.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_14.png" alt=""> <h2 id="5">P-values in terms of the number of components from simulated data with effects in a</h2>
+<p>specific component</p>
+<pre class="codeinput">load <span class="string">sim_emb</span>
+<span class="keyword">for</span> iii = 1 <span class="comment">% 1 replicate</span>
+    <span class="keyword">for</span> ii = 1:length(effectsize)
+        <span class="comment">% Plot p-values</span>
+        figure;
+        ylabel(<span class="string">'P-value'</span>); xlabel(<span class="string">'Number of components'</span>); title(sprintf(<span class="string">'Effect Size %.1f'</span>,effectsize(ii))); hold <span class="string">on</span>
+        plot(ncomp_values, pval_GLLR(:,ii,iii), <span class="string">'red'</span>);
+        plot(ncomp_values, pval_perm1(:,ii,iii), <span class="string">'green'</span>);
+        plot(ncomp_values, pval_perm3(:,ii,iii), <span class="string">'blue'</span>);
+        legend(<span class="string">'GLLR'</span>, <span class="string">'perm'</span>, <span class="string">'perm-f'</span>)
+        axis([1 max(ncomp_values) 0 1])
+        saveas(gcf,sprintf(<span class="string">'./Figures/pvalues_emb_%d_%d'</span>,iii,ii));
+        saveas(gcf,sprintf(<span class="string">'./Figures/pvalues_emd_%d_%d'</span>,iii,ii),<span class="string">'epsc'</span>);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+<img vspace="5" hspace="5" src="plot_powercurves_15.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_16.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_17.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_18.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_19.png" alt=""> <img vspace="5" hspace="5" src="plot_powercurves_20.png" alt=""> <p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% EXAMPLES of Madssen et al. "Statistical validation of multivariate 
+% treatment effects in longitudinal study designs". Submitted to Journal of
+% Chemometrics, 2025. This example generates relative population power
+% curves (see Journal of Chemometrics, 2024, 38 (12): e3596
+%
+% coded by: Torfinn Støve Madssen (torfinn.s.madssen@ntnu.no)
+%       Jose Camacho Paez (josecamacho@ugr.es)
+% last modification: 26/March/2025
+% 
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+%% General settings
+
+n_sim = 200;
+iterations = 200;
+
+
+%% Treatment effect in real data
+
+effectsize = 0:0.04:0.2;
+output_dir = './Script_Real/';
+nrcomps = 5;
+center = 'off';
+
+[VarLow5Comp1, VarLow5Comp2] = collect_results(output_dir, effectsize, n_sim, iterations)
+axis([effectsize(1:2) 0 1])
+saveas(gcf,'./Figures/VarRealzoom');
+saveas(gcf,'./Figures/VarRealzoom','epsc');
+axis([effectsize([1 end]) 0 1])
+saveas(gcf,'./Figures/VarReal');
+saveas(gcf,'./Figures/VarReal','epsc');
+
+
+%% High variance treatment effect embedded in PC 3
+
+effectsize = 0:0.1:1;
+output_dir = './Script_Emb/';
+nrcomps = 5;
+expvar = 'high';
+center = 'off';
+
+[VarHigh5Comp1, VarHigh5Comp2] = collect_results(output_dir, effectsize, n_sim, iterations)
+axis([effectsize(1:2) 0 1])
+saveas(gcf,'./Figures/VarHigh5zoom');
+saveas(gcf,'./Figures/VarHigh5zoom','epsc');
+axis([effectsize([1 end]) 0 1])
+saveas(gcf,'./Figures/VarHigh5');
+saveas(gcf,'./Figures/VarHigh5','epsc');
+
+
+%% P-values in terms of the number of components in real data
+
+load sim_real
+for iii = 1:2 % 2 replicates
+    for ii = 1:length(effectsize)
+        % Plot p-values
+        figure;
+        ylabel('P-value'); xlabel('Number of components'); title(sprintf('Effect Size %.2f',effectsize(ii))); hold on
+        plot(ncomp_values, pval_GLLR(:,ii,iii), 'red');
+        plot(ncomp_values, pval_perm1(:,ii,iii), 'green');
+        plot(ncomp_values, pval_perm3(:,ii,iii), 'blue');
+        legend('GLLR', 'perm', 'perm-f')
+        axis([1 max(ncomp_values) 0 1])
+        saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii));
+        saveas(gcf,sprintf('./Figures/pvalues_real_%d_%d',iii,ii),'epsc');
+    end
+end
+
+
+%% P-values in terms of the number of components  from simulated data with effects in a 
+% specific component
+
+load sim_emb
+for iii = 1 % 1 replicate
+    for ii = 1:length(effectsize)
+        % Plot p-values
+        figure;
+        ylabel('P-value'); xlabel('Number of components'); title(sprintf('Effect Size %.1f',effectsize(ii))); hold on
+        plot(ncomp_values, pval_GLLR(:,ii,iii), 'red');
+        plot(ncomp_values, pval_perm1(:,ii,iii), 'green');
+        plot(ncomp_values, pval_perm3(:,ii,iii), 'blue');
+        legend('GLLR', 'perm', 'perm-f')
+        axis([1 max(ncomp_values) 0 1])
+        saveas(gcf,sprintf('./Figures/pvalues_emb_%d_%d',iii,ii));
+        saveas(gcf,sprintf('./Figures/pvalues_emd_%d_%d',iii,ii),'epsc');
+    end
+end
+##### SOURCE END #####
+-->
+</body>
+</html>
